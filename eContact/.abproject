@@ -1,0 +1,45 @@
+{
+  "ProjectName": "eContact",
+  "ProjectGuid": "e4324677-a9c3-4df0-adcc-150fed4934f8",
+  "projectVersion": 1,
+  "AppIdentifier": "com.telerik.eContact",
+  "DisplayName": "eContact",
+  "Author": "",
+  "Description": "eContact",
+  "BundleVersion": "1.0",
+  "AndroidVersionCode": "1",
+  "iOSDeviceFamily": [
+    "1",
+    "2"
+  ],
+  "iOSBackgroundMode": [],
+  "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
+  "FrameworkVersion": "4.0.0",
+  "AndroidPermissions": [
+    "android.permission.INTERNET"
+  ],
+  "DeviceOrientations": [
+    "Portrait",
+    "Landscape"
+  ],
+  "AndroidHardwareAcceleration": "true",
+  "iOSStatusBarStyle": "Default",
+  "Framework": "Cordova",
+  "WP8TileTitle": "",
+  "WP8Publisher": "",
+  "WP8Capabilities": [
+    "ID_CAP_NETWORKING",
+    "ID_CAP_WEBBROWSERCOMPONENT"
+  ],
+  "WP8Requirements": [],
+  "WP8PublisherID": "{ca64e74a-2841-4191-8a37-c32f2755eb0c}",
+  "WP8ProductID": "{84de85dc-59f1-46ed-b197-93e34c0ab94e}",
+  "WPSdk": "8.0",
+  "WP8PackageIdentityName": "1234Telerik.eContact",
+  "WP8WindowsPublisherName": "CN=Telerik",
+  "WP8SupportedResolutions": [
+    "ID_RESOLUTION_WVGA",
+    "ID_RESOLUTION_WXGA",
+    "ID_RESOLUTION_HD720P"
+  ]
+}
