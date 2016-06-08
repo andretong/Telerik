@@ -33,7 +33,7 @@
   "transition": "slide",
   "showMoreTab": false,
   "skin": "nova",
-  "skinMainColor": "#32364c",
+  "skinMainColor": "#339966",
   "skinTextColor": "#ffffff",
-  "skinAccentColor": "#ff4350"
+  "skinAccentColor": "#0066ff"
 }

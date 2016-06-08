@@ -31,7 +31,10 @@
     "ID_CAP_NETWORKING",
     "ID_CAP_WEBBROWSERCOMPONENT"
   ],
-  "WP8Requirements": [],
+  "WP8Requirements": [
+    "ID_REQ_FRONTCAMERA",
+    "ID_REQ_REARCAMERA"
+  ],
   "WP8PublisherID": "{ca64e74a-2841-4191-8a37-c32f2755eb0c}",
   "WP8ProductID": "{84de85dc-59f1-46ed-b197-93e34c0ab94e}",
   "WPSdk": "8.0",
