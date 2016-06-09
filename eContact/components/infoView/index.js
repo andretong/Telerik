@@ -4,15 +4,6 @@
 
 app.infoView = kendo.observable({
     onShow: function () {
-        /*
-        app.nodeActionsDS.read();
-        var json = app.nodeActionsDS.data().toJSON();
-        navigator.notification.alert(json);
-        //app.infoView.set('title', 'Información ' + json);
-        */
-        app.nodeActionsDSv2();
-
-
     },
     afterShow: function () {}
 });

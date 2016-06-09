@@ -1,12 +1,23 @@
-<div data-role="view" data-title="Home View" data-layout="main" data-model="app.homeView" data-show="app.homeView.onShow" data-after-show="app.homeView.afterShow">
+<div data-role="view" data-title="Inicio" data-layout="main" data-model="app.homeView" data-show="app.homeView.onShow" data-after-show="app.homeView.afterShow">
     <!-- START_CUSTOM_CODE_homeView -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
+    
     <header data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
             <button id="btnLogout" data-role="button" data-align="right" data-bind="click: logout">Logout</button>
         </div>
     </header>
+    
+    <h1 data-bind="html: title"></h1>
+    
+    <ul data-role="listview" data-style="inset" data-template="homeTemplate" data-bind="source: menu"></ul>
+
+    <!-- this is the template used by the listview. template items are automatically wrapped in an <li> by Kendo UI Mobile -->
+    <script type="text/x-kendo-template" id="homeTemplate">
+        <a data-bind="click: alert">#: data.optionName #</a>
+    </script>
+    
     <ul id="images">
     </ul>
     <!-- END_CUSTOM_CODE_homeView -->
