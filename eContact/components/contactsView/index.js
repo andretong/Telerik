@@ -13,7 +13,7 @@ app.contactsView = kendo.observable({
         var node = JSON.parse(sessionStorage.getItem("node_" + nodoID));
         var menu = node.getPostNodeResult;
 
-        var nodeActions = JSON.parse(sessionStorage.getItem("nodeActions"));
+        var nodeActions = JSON.parse(sessionStorage.getItem("nodeActions_"+nodoID));
         var actions = nodeActions.getPostNodeActionsResult;
         
         //var respuesta = JSON.parse(sessionStorage.getItem("nodeActions"));

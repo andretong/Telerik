@@ -152,6 +152,7 @@ VERSION CON RESTful WCF
         
         $.ajax({
             url: wsHost + 'getPostNode',
+            async: false,
             type: 'POST',
             //data: jsonData,
             data: JSON.stringify(input),
@@ -190,12 +191,13 @@ VERSION CON RESTful WCF
         
         $.ajax({
             url: wsHost + 'getPostNodeActions',
+            async: false,
             type: 'POST',
             //data: jsonData,
             data: JSON.stringify(input),
             contentType: "application/json; charset=utf-8",
             success: function (data) {                               
-                sessionStorage.setItem("nodeActions", JSON.stringify(data));                
+                sessionStorage.setItem("nodeActions_"+nodo, JSON.stringify(data));                
             },
             error: function (error) {
                 navigator.notification.alert(JSON.stringify(error));
