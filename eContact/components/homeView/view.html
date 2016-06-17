@@ -6,9 +6,6 @@
             <span data-role="view-title"></span>
             <button id="btnLogout" data-role="button" data-align="left" data-bind="click: logout">Salir</button>
             <a data-role="button" data-align="right" data-rel="modalview" href="#contact">Ayuda</a>
-            <!--            
-<button id="btnContact" data-role="button" data-align="right" data-bind="click: contactCenter">Help</button>
--->
         </div>
     </header>
     <h1 data-bind="html: title"></h1>
@@ -39,7 +36,7 @@
             <span>Contacto</span>
         </div>
     </div>
-    <ul data-role="listview" data-style="inset" data-template="contactsTemplate" data-bind="source: dataActionsHome">
+    <ul data-role="listview" data-style="inset" data-template="contactsTemplate" data-bind="source: dataSourceActions">
     </ul>
     <button data-bind="click: close" class="close-button" data-role="button">Cancelar</button>
     <!-- this is the template used by the listview. template items are automatically wrapped in an <li> by Kendo UI Mobile -->

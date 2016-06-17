@@ -30,14 +30,17 @@ VERSION CON RESTful WCF
             //data: jsonData,
             data: JSON.stringify(input),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {                
-                if (data.getPosAuthenticateResult.Authenticated == 1) {
-                    sessionStorage.setItem("datosIVR", JSON.stringify(data));
-                    window.location.href = "main.html";
+            success: function (data) {
+                if (data != null) {
+                    if (data.getPosAuthenticateResult.Authenticated == 1) {
+                        sessionStorage.setItem("datosIVR", JSON.stringify(data));
+                        window.location.href = "main.html";
+                    } else {
+                        navigator.notification.alert("Usuario y/o Contraseña incorrectas.");
+                    }
                 } else {
                     navigator.notification.alert("Usuario y/o Contraseña incorrectas.");
                 }
-
             },
             error: function (error) {
                 navigator.notification.alert(JSON.stringify(error));
@@ -69,15 +72,15 @@ VERSION CON RESTful WCF
         var input = {
             "treeID": treeID
         }
-        
+
         $.ajax({
             url: wsHost + 'getPostTreeInfo',
             type: 'POST',
             //data: jsonData,
             data: JSON.stringify(input),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {                               
-                sessionStorage.setItem("tree", JSON.stringify(data));                
+            success: function (data) {
+                sessionStorage.setItem("tree", JSON.stringify(data));
             },
             error: function (error) {
                 navigator.notification.alert(JSON.stringify(error));
@@ -102,29 +105,29 @@ VERSION CON RESTful WCF
         });
         */
     }
-   
+
 
     app.consultarNodeAttributes = function (tree, nodo) {
         var input = {
             "treeID": tree,
             "nodeID": nodo
         }
-        
+
         $.ajax({
             url: wsHost + 'getPostNodeAttributes',
             type: 'POST',
             //data: jsonData,
             data: JSON.stringify(input),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {                               
-                sessionStorage.setItem("nodeAttributes_"+nodo, JSON.stringify(data));                
+            success: function (data) {
+                sessionStorage.setItem("nodeAttributes_" + nodo, JSON.stringify(data));
             },
             error: function (error) {
                 navigator.notification.alert(JSON.stringify(error));
             }
 
         });
-        
+
         /*
         app.nodeAttributesDS = new kendo.data.DataSource({
             transport: {
@@ -149,7 +152,7 @@ VERSION CON RESTful WCF
             "treeID": tree,
             "nodeID": nodo
         }
-        
+
         $.ajax({
             url: wsHost + 'getPostNode',
             async: false,
@@ -157,8 +160,8 @@ VERSION CON RESTful WCF
             //data: jsonData,
             data: JSON.stringify(input),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {                               
-                sessionStorage.setItem("node_"+nodo, JSON.stringify(data));                
+            success: function (data) {
+                sessionStorage.setItem("node_" + nodo, JSON.stringify(data));
             },
             error: function (error) {
                 navigator.notification.alert(JSON.stringify(error));
@@ -183,12 +186,12 @@ VERSION CON RESTful WCF
         });
         */
     }
-    
+
     app.consultarNodeActions = function (nodo) {
         var input = {
             "nodeID": nodo
         }
-        
+
         $.ajax({
             url: wsHost + 'getPostNodeActions',
             async: false,
@@ -196,8 +199,8 @@ VERSION CON RESTful WCF
             //data: jsonData,
             data: JSON.stringify(input),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {                               
-                sessionStorage.setItem("nodeActions_"+nodo, JSON.stringify(data));                
+            success: function (data) {
+                sessionStorage.setItem("nodeActions_" + nodo, JSON.stringify(data));
             },
             error: function (error) {
                 navigator.notification.alert(JSON.stringify(error));
@@ -222,7 +225,7 @@ VERSION CON RESTful WCF
         });
         */
     }
-    
+
 
     app.genesysVirtualHold = function (phone, queue) {
 
