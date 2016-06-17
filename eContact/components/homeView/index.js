@@ -45,7 +45,6 @@ app.homeView = kendo.observable({
         var tree = JSON.parse(sessionStorage.getItem("tree"));
         var treeID = tree.getPostTreeInfoResult.TreeID;
         var nodoID = sessionStorage.getItem("NODO_ACTUAL");
-        alert(nodoID);
 
         app.consultarNode(treeID, nodoID);
         app.consultarNodeActions(nodoID);
