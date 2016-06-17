@@ -31,7 +31,7 @@ VERSION CON RESTful WCF
             data: JSON.stringify(input),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                if (data != null) {
+                if (data != null && data.getPosAuthenticateResult != null) {
                     if (data.getPosAuthenticateResult.Authenticated == 1) {
                         sessionStorage.setItem("datosIVR", JSON.stringify(data));
                         window.location.href = "main.html";
