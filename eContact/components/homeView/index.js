@@ -89,7 +89,21 @@ app.homeView = kendo.observable({
     app.homeView.set('alert', function (e) {
         sessionStorage.setItem("NODO_ACTUAL", e.data.NodeID);
         app.homeView.onShowInfo();
-        window.location.href = "#info";        
+        window.location.href = "#info";
+    });
+
+    app.homeView.set('contactCenter', function (e) {
+        if (e.data.ActionType == 'TRANSFERENCIA') {
+            app.genesysTransferencia(e.data.numeroTransferencia);
+        } else if (e.data.ActionType == 'VIRTUAL_HOLD') {
+            app.genesysVirtualHold('0990856037', e.data.numeroTransferencia);
+        } else if (e.data.ActionType == 'C2C') {
+            app.genesysVirtualHold('0990856037', e.data.numeroTransferencia);
+        } else if (e.data.ActionType == 'CHAT') {
+            //alert('ES UN CHAT ' + e.data.url);
+            app.genesysChat();
+        }
+
     });
 
 })();

@@ -30,7 +30,7 @@
         <a data-bind="click: alert">#: data.NodeName #</a>
     </script>
 </div>
-<div id="contact" data-role="modalview" data-model="app.homeView" style="width: 90%">
+<div id="contact" data-role="modalview" data-model="app.homeView" style="width: 90%; height: 60%">
     <div data-role="header">
         <div data-role="navbar">
             <span>Contacto</span>
@@ -41,6 +41,9 @@
     <button data-bind="click: close" class="close-button" data-role="button">Cancelar</button>
     <!-- this is the template used by the listview. template items are automatically wrapped in an <li> by Kendo UI Mobile -->
     <script type="text/x-kendo-template" id="contactsTemplate">
-        <a data-bind="click: alertNode">#: data.ActionType #</a>
+        <a data-bind="click: contactCenter">#: data.ActionType #</a>
     </script>
+</div>
+<div id="chat" data-role="view" data-title="Chat" data-layout="main">    
+    <iframe id="chatFrame" width="100%" height="500" src="http://www.e-contact.cl"></iframe>
 </div>

@@ -50,17 +50,18 @@ app.contactsView = kendo.observable({
     });
     app.contactsView.set('dataSource', dataSource);
 	*/
-    app.contactsView.set('alert', function (e) {
-        
-        if (e.data.ActionType == 'TRANSFERENCIA'){
+    app.contactsView.set('contactCenter', function (e) {
+        if (e.data.ActionType == 'TRANSFERENCIA') {
             app.genesysTransferencia(e.data.numeroTransferencia);
-        }else if (e.data.ActionType == 'VIRTUAL_HOLD'){            
+        } else if (e.data.ActionType == 'VIRTUAL_HOLD') {
             app.genesysVirtualHold('0990856037', e.data.numeroTransferencia);
-        }else if (e.data.ActionType == 'CHAT'){
+        } else if (e.data.ActionType == 'C2C') {
+            app.genesysVirtualHold('0990856037', e.data.numeroTransferencia);
+        } else if (e.data.ActionType == 'CHAT') {
             //alert('ES UN CHAT ' + e.data.url);
             app.genesysChat();
         }
-        
+
     });
 
     //app.consultarNodeActions(10);
