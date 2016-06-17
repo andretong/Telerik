@@ -5,10 +5,12 @@ app.homeView = kendo.observable({
         var cliente = JSON.parse(sessionStorage.getItem("cliente"));
         app.homeView.set('title', 'Bienvenido ' + cliente.nombre);
 
-        var tree = JSON.parse(sessionStorage.getItem("tree"));        
-        
+        var tree = JSON.parse(sessionStorage.getItem("tree"));
         var treeID = tree.getPostTreeInfoResult.TreeID;
         var nodoID = tree.getPostTreeInfoResult.StartingNodeID;
+        app.consultarNode(treeID, nodoID);        
+        app.consultarNodeActions(nodoID); 
+        
         var node =  JSON.parse(sessionStorage.getItem("node_"+nodoID));
         var menu = node.getPostNodeResult;
         
@@ -65,12 +67,7 @@ app.homeView = kendo.observable({
     if (sessionStorage.getItem("tree") == null || sessionStorage.getItem("tree") == '') {
         var datosIVR = JSON.parse(sessionStorage.getItem("datosIVR"));
         app.consultarTreeIVR(datosIVR.getPosAuthenticateResult.TreeID);
-        //app.treeDS.read();
-        
-        var treeID = tree.getPostTreeInfoResult.TreeID;
-        var nodoID = tree.getPostTreeInfoResult.StartingNodeID;
-        app.consultarNode(treeID, nodoID);        
-        app.consultarNodeActions(nodoID);        
+        //app.treeDS.read();                       
     }
 
 
