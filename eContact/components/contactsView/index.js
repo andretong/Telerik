@@ -3,16 +3,17 @@
 app.contactsView = kendo.observable({
     onShow: function () {
         
-        var tree = JSON.parse(sessionStorage.getItem("tree"));        
-        
+        var tree = JSON.parse(sessionStorage.getItem("tree"));                
         var treeID = tree.getPostTreeInfoResult.TreeID;
         var nodoID = tree.getPostTreeInfoResult.StartingNodeID;
-        app.consultarNode(treeID, nodoID);
-        var node =  JSON.parse(sessionStorage.getItem("node_"+nodoID));  
-        var menu = node.getPostNodeResult;
         
-        app.consultarNodeActions(nodoID);        
-        var nodeActions = JSON.parse(sessionStorage.getItem("nodeActions"));        
+        app.consultarNode(treeID, nodoID);
+    	app.consultarNodeActions(nodoID);
+        
+        var node = JSON.parse(sessionStorage.getItem("node_" + nodoID));
+        var menu = node.getPostNodeResult;
+
+        var nodeActions = JSON.parse(sessionStorage.getItem("nodeActions"));
         var actions = nodeActions.getPostNodeActionsResult;
         
         //var respuesta = JSON.parse(sessionStorage.getItem("nodeActions"));
