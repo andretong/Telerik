@@ -10,7 +10,7 @@ app.homeView = kendo.observable({
         var nodoID = tree.getPostTreeInfoResult.StartingNodeID;
 
         app.consultarNode(treeID, nodoID);
-        app.consultarNodeActions(nodoID);
+        app.consultarNodeActions(treeID, nodoID);
 
         var node = JSON.parse(sessionStorage.getItem("node_" + nodoID));
         var menu = node.getPostNodeResult;
@@ -26,7 +26,7 @@ app.homeView = kendo.observable({
         var dataSourceActions = new kendo.data.DataSource({
             data: actions
         });
-        app.homeView.set('dataActionsHome', dataSourceActions);
+        app.homeView.set('dataSourceActions', dataSourceActions);
 
     },
     afterShow: function () {
@@ -47,7 +47,7 @@ app.homeView = kendo.observable({
         var nodoID = sessionStorage.getItem("NODO_ACTUAL");
 
         app.consultarNode(treeID, nodoID);
-        app.consultarNodeActions(nodoID);
+        app.consultarNodeActions(treeID, nodoID);
 
         var node = JSON.parse(sessionStorage.getItem("node_" + nodoID));
         var menu = node.getPostNodeResult;
@@ -63,7 +63,7 @@ app.homeView = kendo.observable({
         var dataSourceActions = new kendo.data.DataSource({
             data: actions
         });
-        app.homeView.set('dataActionsHome', dataSourceActions);
+        app.homeView.set('dataSourceActions', dataSourceActions);
     }
 });
 

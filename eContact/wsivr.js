@@ -187,8 +187,9 @@ VERSION CON RESTful WCF
         */
     }
 
-    app.consultarNodeActions = function (nodo) {
+    app.consultarNodeActions = function (tree, nodo) {
         var input = {
+            "treeID": tree,
             "nodeID": nodo
         }
 
