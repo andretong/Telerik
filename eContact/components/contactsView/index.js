@@ -2,8 +2,21 @@
 
 app.contactsView = kendo.observable({
     onShow: function () {
-        var respuesta = JSON.parse(sessionStorage.getItem("nodeActions"));
-        var actions = respuesta.actions; 
+        
+        var tree = JSON.parse(sessionStorage.getItem("tree"));        
+        
+        var treeID = tree.getPostTreeInfoResult.TreeID;
+        var nodoID = tree.getPostTreeInfoResult.StartingNodeID;
+        app.consultarNode(treeID, nodoID);
+        var node =  JSON.parse(sessionStorage.getItem("node_"+nodoID));  
+        var menu = node.getPostNodeResult;
+        
+        app.consultarNodeActions(nodoID);        
+        var nodeActions = JSON.parse(sessionStorage.getItem("nodeActions"));        
+        var actions = nodeActions.getPostNodeActionsResult;
+        
+        //var respuesta = JSON.parse(sessionStorage.getItem("nodeActions"));
+        //var actions = respuesta.actions; 
         
         var dataSourceActions = new kendo.data.DataSource({
             data: actions
@@ -38,19 +51,19 @@ app.contactsView = kendo.observable({
 	*/
     app.contactsView.set('alert', function (e) {
         
-        if (e.data.actionType == 'TRANSFERENCIA'){
+        if (e.data.ActionType == 'TRANSFERENCIA'){
             app.genesysTransferencia(e.data.numeroTransferencia);
-        }else if (e.data.actionType == 'VIRTUAL_HOLD'){            
+        }else if (e.data.ActionType == 'VIRTUAL_HOLD'){            
             app.genesysVirtualHold('0990856037', e.data.numeroTransferencia);
-        }else if (e.data.actionType == 'CHAT'){
+        }else if (e.data.ActionType == 'CHAT'){
             //alert('ES UN CHAT ' + e.data.url);
             app.genesysChat();
         }
         
     });
 
-    app.consultarNodeActions(10);
-    app.nodeActionsDS.read();
+    //app.consultarNodeActions(10);
+    //app.nodeActionsDS.read();
 
 })();
 // END_CUSTOM_CODE_contactsView
