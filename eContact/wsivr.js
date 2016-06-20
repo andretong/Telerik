@@ -226,6 +226,48 @@ VERSION CON RESTful WCF
         });
         */
     }
+    
+    
+    app.consultarActionsAttributes = function (tree, action) {
+        var input = {
+            "treeID": tree,
+            "actionID": action
+        }
+
+        $.ajax({
+            url: wsHost + 'getPostActionAttributes',
+            type: 'POST',
+            //data: jsonData,
+            async: false,
+            data: JSON.stringify(input),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                sessionStorage.setItem("actionAttributes_" + action, JSON.stringify(data));
+            },
+            error: function (error) {
+                navigator.notification.alert(JSON.stringify(error));
+            }
+
+        });
+
+        /*
+        app.nodeAttributesDS = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: wsHost + "getPostNodeAttributes",
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(input)
+                }
+            },
+            schema: {
+                data: function (response) {
+                    sessionStorage.setItem("nodeActions", JSON.stringify(response));
+                }
+            }
+        });
+        */
+    }
 
 
     app.genesysVirtualHold = function (phone, queue) {
@@ -277,9 +319,10 @@ VERSION CON RESTful WCF
         });
     }
 
-    app.genesysChat = function (phone, url) {
+    app.genesysChat = function (url) {
         var cliente = JSON.parse(sessionStorage.getItem("cliente"));
-        var url2 = "https://c2chat.e-contact.cl/MobileChat/Home/index?firstName=" + cliente.nombre + "&lastName=" + cliente.categoria + "&mobile=" + phone;
+        var phone = '990856037'
+        var url2 = url+"?firstName=" + cliente.nombre + "&lastName=" + cliente.categoria + "&mobile=" + phone;
         $('#chatFrame').attr('src', url2);
         window.location.href = "#chat";
     }
@@ -293,5 +336,33 @@ VERSION CON RESTful WCF
         window.location.href = "index.html";
     }
 
+    app.ejecutarAccion = function(e){
+        var tree = JSON.parse(sessionStorage.getItem("tree"));                
+        var treeID = tree.getPostTreeInfoResult.TreeID;
+        var actionID = e.data.ActionID;
+        app.consultarActionsAttributes(treeID, actionID);
+        
+        var actionAttributes = JSON.parse(sessionStorage.getItem("actionAttributes_"+actionID));
+        var numeroTransferencia = actionAttributes.getPostActionAttributesResult[0].NumeroTransferencia;        
+        
+        if (e.data.ActionType == 'TRANSFERENCIA') {
+            app.genesysTransferencia(numeroTransferencia);
+        } else if (e.data.ActionType == 'VIRTUAL_HOLD') {
+            app.genesysVirtualHold('0990856037', numeroTransferencia);
+        } else if (e.data.ActionType == 'C2C') {
+            app.genesysVirtualHold('0990856037', numeroTransferencia);
+        } else if (e.data.ActionType == 'CALLBACK') {
+            app.genesysVirtualHold('0990856037', numeroTransferencia);
+        }  else if (e.data.ActionType == 'CHAT') {
+            //alert('ES UN CHAT ' + e.data.url);
+            var url = actionAttributes.getPostActionAttributesResult[0].Url;
+            app.genesysChat(url);
+        }
+    }
+    
+    app.buscarNodosYAcciones = function(treeID, nodoID){        
+        app.consultarNode(treeID, nodoID);
+        app.consultarNodeActions(treeID, nodoID);
+    }
 })();
 // END_CUSTOM_CODE_settingsView

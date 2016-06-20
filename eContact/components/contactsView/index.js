@@ -7,8 +7,7 @@ app.contactsView = kendo.observable({
         var treeID = tree.getPostTreeInfoResult.TreeID;
         var nodoID = tree.getPostTreeInfoResult.StartingNodeID;
         
-        app.consultarNode(treeID, nodoID);
-    	app.consultarNodeActions(nodoID);
+        app.buscarNodosYAcciones(treeID, nodoID);
         
         var node = JSON.parse(sessionStorage.getItem("node_" + nodoID));
         var menu = node.getPostNodeResult;
@@ -51,17 +50,7 @@ app.contactsView = kendo.observable({
     app.contactsView.set('dataSource', dataSource);
 	*/
     app.contactsView.set('contactCenter', function (e) {
-        if (e.data.ActionType == 'TRANSFERENCIA') {
-            app.genesysTransferencia(e.data.numeroTransferencia);
-        } else if (e.data.ActionType == 'VIRTUAL_HOLD') {
-            app.genesysVirtualHold('0990856037', e.data.numeroTransferencia);
-        } else if (e.data.ActionType == 'C2C') {
-            app.genesysVirtualHold('0990856037', e.data.numeroTransferencia);
-        } else if (e.data.ActionType == 'CHAT') {
-            //alert('ES UN CHAT ' + e.data.url);
-            app.genesysChat();
-        }
-
+        app.ejecutarAccion(e);
     });
 
     //app.consultarNodeActions(10);
