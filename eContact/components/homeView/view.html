@@ -16,14 +16,15 @@
     </script>
     <!-- END_CUSTOM_CODE_homeView -->
 </div>
-<div id="info" data-role="view" data-title="Info" data-layout="main" data-model="app.homeView" >
+<div id="info" data-role="view" data-title="Información" data-layout="main" data-model="app.homeView">
     <header data-role="header">
         <div data-role="navbar">
-            <span data-role="view-title"></span>
+            <span data-bind="html: titleInfo" data-role="view-title"></span>
             <button data-role="button" data-align="left" data-bind="click: back">Inicio</button>
             <a data-role="button" data-align="right" data-rel="modalview" href="#contact">Ayuda</a>
         </div>
     </header>
+    <span data-bind="html: titleInfo" data-role="view-title"></span>
     <ul id="subnodes" data-role="listview" data-style="inset" data-template="infoTemplate" data-bind="source: submenu">
     </ul>
     <script type="text/x-kendo-template" id="infoTemplate">
@@ -44,6 +45,22 @@
         <a data-bind="click: contactCenter">#: data.ActionType #</a>
     </script>
 </div>
-<div id="chat" data-role="view" data-title="Chat" data-layout="main">    
+<div id="callback" data-role="modalview" data-model="app.homeView" style="width: 90%; height: 60%">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span>Callback</span>
+        </div>
+    </div>
+    <h4>Llamarme a las: </h4>
+    <input id="datetimepicker" style="width: 100%;" />
+    
+    <button data-bind="click: callback" class="close-button" data-role="button">Aceptar</button>
+    <button data-bind="click: close" class="close-button" data-role="button">Cancelar</button>
+    
+    <script type="text/x-kendo-template" id="contactsTemplate">
+        <a data-bind="click: contactCenter">#: data.ActionType #</a>
+    </script>
+</div>
+<div id="chat" data-role="view" data-title="Chat" data-layout="main">
     <iframe id="chatFrame" width="100%" height="500" src="http://www.e-contact.cl"></iframe>
 </div>
