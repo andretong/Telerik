@@ -40,8 +40,8 @@
         } else {
             return navigator.connection.type !== 'none';
         }
-    };
-    
+    };    
+
 }());
 
 // START_CUSTOM_CODE_kendoUiMobileApp

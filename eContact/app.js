@@ -41,6 +41,8 @@
             return navigator.connection.type !== 'none';
         }
     };
+    
+    sessionStorage.clear();
 }());
 
 // START_CUSTOM_CODE_kendoUiMobileApp

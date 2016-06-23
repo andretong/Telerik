@@ -23,9 +23,10 @@ VERSION CON RESTful WCF
             "dv": subtoken,
         };
         sessionStorage.setItem("inputCliente", JSON.stringify(jsonCliente));
-
+		
         $.ajax({
             url: wsHost + 'getPostAuthenticate',
+            async: false,
             type: 'POST',
             //data: jsonData,
             data: JSON.stringify(input),
@@ -75,6 +76,7 @@ VERSION CON RESTful WCF
 
         $.ajax({
             url: wsHost + 'getPostTreeInfo',
+            async: false,
             type: 'POST',
             //data: jsonData,
             data: JSON.stringify(input),
@@ -115,6 +117,7 @@ VERSION CON RESTful WCF
 
         $.ajax({
             url: wsHost + 'getPostNodeAttributes',
+            async: false,
             type: 'POST',
             //data: jsonData,
             data: JSON.stringify(input),
@@ -226,8 +229,8 @@ VERSION CON RESTful WCF
         });
         */
     }
-    
-    
+
+
     app.consultarActionsAttributes = function (tree, action) {
         var input = {
             "treeID": tree,
@@ -292,7 +295,7 @@ VERSION CON RESTful WCF
 
         var parametros = {
             "idServiceClient": '1',
-            "phoneNumber": phone,
+            "phoneNumber": '09' + phone,
             "queue": queue,
             "key": keys,
             "value": values
@@ -319,12 +322,107 @@ VERSION CON RESTful WCF
         });
     }
 
-    app.genesysChat = function (url) {
+    app.genesysStatistic = function (statisticName, statisticObjectType, statisticObjectName) {
+
+        var parametros = {
+            "statisticName": statisticName,
+            "statisticObjectType": statisticObjectType,
+            "statisticObjectName": statisticObjectName,
+            "tenant": "Resources"
+        };
+
+        $.ajax({
+            url: wsHost_DATA + 'getStatistic',
+            async: false,
+            type: 'POST',
+            traditional: true,
+            data: parametros, // or $('#myform').serializeArray()
+            success: function (data) {
+                if (data.errCode == 0) {
+                    //sessionStorage.setItem("statistic_" + statisticName, JSON.stringify(data));
+                    sessionStorage.setItem("statistic_" + statisticName, data.statisticValue);
+                }
+
+                //navigator.notification.alert(JSON.stringify(data));
+            },
+            error: function (error) {
+                navigator.notification.alert("La llamada no puede ser agendada, por favor, intente nuevamente.");
+                //navigator.notification.alert(JSON.stringify(error));
+            }
+
+        });
+    }
+
+    app.genesysChat = function (phone, url) {
         var cliente = JSON.parse(sessionStorage.getItem("cliente"));
-        var phone = '990856037'
-        var url2 = url+"?firstName=" + cliente.nombre + "&lastName=" + cliente.categoria + "&mobile=" + phone;
+        //var phone = datosIVR.Telefono;
+        var url2 = url + "?firstName=" + cliente.nombre + "&lastName=" + cliente.categoria + "&mobile=" + phone;
         $('#chatFrame').attr('src', url2);
         window.location.href = "#chat";
+    }
+
+    app.genesysCallback = function (actionID, fecha) {
+        
+        var tree = JSON.parse(sessionStorage.getItem("tree"));
+        var treeID = tree.getPostTreeInfoResult.TreeID;
+        app.consultarActionsAttributes(treeID, actionID);
+
+        var actionAttributes = JSON.parse(sessionStorage.getItem("actionAttributes_" + actionID));
+        var numeroTransferencia = actionAttributes.getPostActionAttributesResult[0].NumeroTransferencia;
+
+        var datosIVR = JSON.parse(sessionStorage.getItem("datosIVR"));
+        var phone = datosIVR.getPosAuthenticateResult.Telefono;
+        
+        var beginInterval = fecha+':00';
+        var endInterval = fecha+':59';
+        
+        var cliente = JSON.parse(sessionStorage.getItem("cliente"));
+
+        var keys = new Array();
+        keys[0] = "RUT";
+        keys[1] = "Nombre";
+        keys[2] = "Categoria";
+        keys[3] = "Segmento";
+        keys[4] = "Aplicacion";
+        keys[5] = "Opcion";
+
+        var values = new Array();
+        values[0] = cliente.rut + '-' + cliente.dvRut;
+        values[1] = cliente.nombre;
+        values[2] = cliente.categoria;
+        values[3] = cliente.segmento;
+        values[4] = "Mobile Telerik";
+        values[5] = "1";
+
+        var parametros = {
+            "idServiceClient": '1',
+            "phoneNumber": '09' + phone,
+            "queue": numeroTransferencia,
+            "beginInterval": beginInterval,
+            "endInterval": endInterval,
+            "key": keys,
+            "value": values
+        };
+
+        $.ajax({
+            url: wsHost_DATA + 'doCallback',
+            type: 'POST',
+            traditional: true,
+            data: parametros, // or $('#myform').serializeArray()
+            success: function (data) {
+                if (data.errCode == 0)
+                    navigator.notification.alert("Se ha agendado la llamada, nuestros agentes lo van a contactar a la brevedad");
+                else {
+                    navigator.notification.alert("La llamada no puede ser agendada, por favor, intente nuevamente.");
+                }
+                //navigator.notification.alert(JSON.stringify(data));
+            },
+            error: function (error) {
+                navigator.notification.alert("La llamada no puede ser agendada, por favor, intente nuevamente.");
+                //navigator.notification.alert(JSON.stringify(error));
+            }
+
+        });
     }
 
     app.genesysTransferencia = function (phone) {
@@ -336,31 +434,32 @@ VERSION CON RESTful WCF
         window.location.href = "index.html";
     }
 
-    app.ejecutarAccion = function(e){
-        var tree = JSON.parse(sessionStorage.getItem("tree"));                
+    app.ejecutarAccion = function (e) {
+        var datosIVR = JSON.parse(sessionStorage.getItem("datosIVR"));
+
+        var tree = JSON.parse(sessionStorage.getItem("tree"));
         var treeID = tree.getPostTreeInfoResult.TreeID;
         var actionID = e.data.ActionID;
         app.consultarActionsAttributes(treeID, actionID);
-        
-        var actionAttributes = JSON.parse(sessionStorage.getItem("actionAttributes_"+actionID));
-        var numeroTransferencia = actionAttributes.getPostActionAttributesResult[0].NumeroTransferencia;        
-        
-        if (e.data.ActionType == 'TRANSFERENCIA') {
+
+        var actionAttributes = JSON.parse(sessionStorage.getItem("actionAttributes_" + actionID));
+        var numeroTransferencia = actionAttributes.getPostActionAttributesResult[0].NumeroTransferencia;
+
+        if (e.data.ActionType == 'TRANSFER') {
             app.genesysTransferencia(numeroTransferencia);
         } else if (e.data.ActionType == 'VIRTUAL_HOLD') {
-            app.genesysVirtualHold('0990856037', numeroTransferencia);
+            app.genesysVirtualHold(datosIVR.getPosAuthenticateResult.Telefono, numeroTransferencia);
         } else if (e.data.ActionType == 'C2C') {
-            app.genesysVirtualHold('0990856037', numeroTransferencia);
+            app.genesysVirtualHold(datosIVR.getPosAuthenticateResult.Telefono, numeroTransferencia);
         } else if (e.data.ActionType == 'CALLBACK') {
-            app.genesysVirtualHold('0990856037', numeroTransferencia);
-        }  else if (e.data.ActionType == 'CHAT') {
-            //alert('ES UN CHAT ' + e.data.url);
+            
+        } else if (e.data.ActionType == 'CHAT') {
             var url = actionAttributes.getPostActionAttributesResult[0].Url;
-            app.genesysChat(url);
+            app.genesysChat(datosIVR.getPosAuthenticateResult.Telefono, url);
         }
     }
-    
-    app.buscarNodosYAcciones = function(treeID, nodoID){        
+
+    app.buscarNodosYAcciones = function (treeID, nodoID) {
         app.consultarNode(treeID, nodoID);
         app.consultarNodeActions(treeID, nodoID);
     }
