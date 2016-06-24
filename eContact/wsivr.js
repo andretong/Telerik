@@ -7,7 +7,9 @@ VERSION CON RESTful WCF
 */
 (function () {
     var wsHost_DATA = 'http://gesys-demo.e-contact.cl:8080/WS_IVRNodos/services/';
-    var wsHost = 'http://10.33.66.30:8090/Service1.svc/rest/';
+    //var wsHost = 'http://10.33.66.30:8090/Service1.svc/rest/';
+    var wsHost = ' https://wcfguimodel.e-contact.cl/Service1.svc/rest/';
+   
     var wsInput = {};
 
     app.autentication = function (username, password) {
