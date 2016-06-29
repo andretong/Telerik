@@ -1,10 +1,49 @@
-<div data-role="view" data-title="Información" data-layout="main" data-model="app.infoView" data-show="app.infoView.onShow" data-after-show="app.infoView.afterShow">
-
+<div data-role="view" data-title="Registro" data-layout="main" data-model="app.infoView" data-show="app.infoView.onShow" data-after-show="app.infoView.afterShow">
     <!-- START_CUSTOM_CODE_settingsView -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
     <h1 data-bind="html: title"></h1>
-    
-    <div id="map"></div>        
-    
+    <form>
+        <ul data-role="listview" data-style="inset">
+            <li>
+                <label>
+                <b>RUT:</b>
+                <input type="text" name="rut" data-bind="value: rut">
+            </label>
+            </li>
+            <li>
+                <label>
+                <b>Contraseña:</b>
+                <input type="password" name="password" data-bind="value: password">
+            </label>
+            </li>
+            <li>
+                <label>
+                <b>Nombre:</b>
+                <input type="text" name="nombre" data-bind="value: nombre">
+            </label>
+            </li>
+            <li>
+                <label>
+                <b>Apellido:</b>
+                <input type="text" name="apellido" data-bind="value: apellido">
+            </label>
+            </li>
+            <li>
+                <label>
+                <b>E-Mail:</b>
+                <input type="email" name="email" data-bind="value: email">
+            </label>
+            </li>
+            <li>
+                <label>
+                <b>Celular:</b>
+                <input type="number" name="celular" data-bind="value: celular">
+            </label>
+            </li>
+            <li>
+                <button style="width: 100%" data-role="button" data-bind="click: register">Registrar</button>
+            </li>
+        </ul>
+    </form>
     <!-- END_CUSTOM_CODE_settingsView -->
 </div>
