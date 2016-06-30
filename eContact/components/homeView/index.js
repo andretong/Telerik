@@ -13,7 +13,7 @@ app.homeView = kendo.observable({
         });
 
         var cliente = JSON.parse(sessionStorage.getItem("cliente"));
-        app.homeView.set('title', 'Bienvenido ' + cliente.nombre);
+        app.homeView.set('title', 'Bienvenido ' + cliente.nombre + ' '+ cliente.apellido);
 
         var tree = JSON.parse(sessionStorage.getItem("tree"));
         var treeID = tree.getPostTreeInfoResult.TreeID;
@@ -194,10 +194,12 @@ app.homeView = kendo.observable({
 (function () {
     app.homeView.set('title', 'E-Contact');
 
+    /*
     if (sessionStorage.getItem("cliente") == null || sessionStorage.getItem("cliente") == '') {
         app.consultarDatosCliente();
         app.clienteDS.read();
     }
+    */
 
     //if (sessionStorage.getItem("tree") == null || sessionStorage.getItem("tree") == '') {
     var datosIVR = JSON.parse(sessionStorage.getItem("datosIVR"));

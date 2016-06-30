@@ -6,7 +6,15 @@ app.infoView = kendo.observable({
     onShow: function () {},
     afterShow: function () {},
     register: function () {
-        alert("Guardando");
+        app.registrarCliente(this.rut, this.password, this.nombre, this.apellido, this.email, this.celular);
+
+        app.infoView.set('rut', '');
+        app.infoView.set('password', '');
+        app.infoView.set('nombre', '');
+        app.infoView.set('apellido', '');
+        app.infoView.set('email', '');
+        app.infoView.set('celular', '');
+
     }
 });
 

@@ -23,7 +23,7 @@ VERSION CON RESTful WCF
             "dv": subtoken,
         };
         sessionStorage.setItem("inputCliente", JSON.stringify(jsonCliente));
-		
+
         $.ajax({
             url: wsHost + 'getPostAuthenticate',
             async: false,
@@ -35,6 +35,19 @@ VERSION CON RESTful WCF
                 if (data != null && data.getPosAuthenticateResult != null) {
                     if (data.getPosAuthenticateResult.Authenticated == 1) {
                         sessionStorage.setItem("datosIVR", JSON.stringify(data));
+
+                        var cliente = {
+                            "rut": token,
+                            "dvRut": subtoken,
+                            "nombre": data.getPosAuthenticateResult.Nombres,
+                            "apellido": data.getPosAuthenticateResult.Apellidos,
+                            "email": data.getPosAuthenticateResult.Email,
+                            "telefono": data.getPosAuthenticateResult.Telefono,
+                            "categoria": "",
+                            "segmento": ""
+                        }
+                        sessionStorage.setItem("cliente", JSON.stringify(cliente));
+
                         window.location.href = "main.html";
                     } else {
                         navigator.notification.alert("Usuario y/o Contraseña incorrectas.");
@@ -44,7 +57,43 @@ VERSION CON RESTful WCF
                 }
             },
             error: function (error) {
-                navigator.notification.alert(JSON.stringify(error));
+                navigator.notification.alert("Estimado usuario, ha ocurrido un error.");
+            }
+
+        });
+    }
+
+    app.registrarCliente = function (username, password, nombre, apellido, email, telefono) {
+        var rut = username.substring(0, username.length - 1);
+        var dv = username.substring(username.length - 1, username.length);
+        var input = {
+            "rut": rut,
+            "dv": dv,
+            "nombres": nombre,
+            "apellidos": apellido,
+            "email": email,
+            "telefono": telefono,
+            "clave": password
+        }
+
+        $.ajax({
+            url: wsHost + 'updClienteMovil',
+            async: false,
+            type: 'POST',
+            //data: jsonData,
+            data: JSON.stringify(input),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.updClienteMovilResult != null) {
+                    if (data.updClienteMovilResult == '0') {
+                        navigator.notification.alert("Se ha registrado éxitosamente");
+                    } else {
+                        navigator.notification.alert("Lo sentimos, en estos momentos no hemos podido registrar su cuenta.");
+                    }
+                }
+            },
+            error: function (error) {
+                navigator.notification.alert("Estimado usuario, ha ocurrido un error.");
             }
 
         });
@@ -85,7 +134,7 @@ VERSION CON RESTful WCF
                 sessionStorage.setItem("tree", JSON.stringify(data));
             },
             error: function (error) {
-                navigator.notification.alert(JSON.stringify(error));
+                navigator.notification.alert("Estimado usuario, ha ocurrido un error.");
             }
 
         });
@@ -126,7 +175,7 @@ VERSION CON RESTful WCF
                 sessionStorage.setItem("nodeAttributes_" + nodo, JSON.stringify(data));
             },
             error: function (error) {
-                navigator.notification.alert(JSON.stringify(error));
+                navigator.notification.alert("Estimado usuario, ha ocurrido un error.");
             }
 
         });
@@ -167,7 +216,7 @@ VERSION CON RESTful WCF
                 sessionStorage.setItem("node_" + nodo, JSON.stringify(data));
             },
             error: function (error) {
-                navigator.notification.alert(JSON.stringify(error));
+                navigator.notification.alert("Estimado usuario, ha ocurrido un error.");
             }
 
         });
@@ -207,7 +256,7 @@ VERSION CON RESTful WCF
                 sessionStorage.setItem("nodeActions_" + nodo, JSON.stringify(data));
             },
             error: function (error) {
-                navigator.notification.alert(JSON.stringify(error));
+                navigator.notification.alert("Estimado usuario, ha ocurrido un error.");
             }
 
         });
@@ -248,7 +297,7 @@ VERSION CON RESTful WCF
                 sessionStorage.setItem("actionAttributes_" + action, JSON.stringify(data));
             },
             error: function (error) {
-                navigator.notification.alert(JSON.stringify(error));
+                navigator.notification.alert("Estimado usuario, ha ocurrido un error.");
             }
 
         });
@@ -287,7 +336,7 @@ VERSION CON RESTful WCF
 
         var values = new Array();
         values[0] = cliente.rut + '-' + cliente.dvRut;
-        values[1] = cliente.nombre;
+        values[1] = cliente.nombre+ ' '+ cliente.apellido;
         values[2] = cliente.categoria;
         values[3] = cliente.segmento;
         values[4] = "Mobile Telerik";
@@ -356,13 +405,13 @@ VERSION CON RESTful WCF
     app.genesysChat = function (phone, url) {
         var cliente = JSON.parse(sessionStorage.getItem("cliente"));
         //var phone = datosIVR.Telefono;
-        var url2 = url + "?firstName=" + cliente.nombre + "&lastName=" + cliente.categoria + "&mobile=" + phone;
+        var url2 = url + "?firstName=" + cliente.nombre + "&lastName=" + cliente.apellido + "&mobile=" + phone;
         $('#chatFrame').attr('src', url2);
         window.location.href = "#chat";
     }
 
     app.genesysCallback = function (actionID, fecha) {
-        
+
         var tree = JSON.parse(sessionStorage.getItem("tree"));
         var treeID = tree.getPostTreeInfoResult.TreeID;
         app.consultarActionsAttributes(treeID, actionID);
@@ -372,10 +421,10 @@ VERSION CON RESTful WCF
 
         var datosIVR = JSON.parse(sessionStorage.getItem("datosIVR"));
         var phone = datosIVR.getPosAuthenticateResult.Telefono;
-        
-        var beginInterval = fecha+':00';
-        var endInterval = fecha+':59';
-        
+
+        var beginInterval = fecha + ':00';
+        var endInterval = fecha + ':59';
+
         var cliente = JSON.parse(sessionStorage.getItem("cliente"));
 
         var keys = new Array();
@@ -388,7 +437,7 @@ VERSION CON RESTful WCF
 
         var values = new Array();
         values[0] = cliente.rut + '-' + cliente.dvRut;
-        values[1] = cliente.nombre;
+        values[1] = cliente.nombre+ ' '+ cliente.apellido;
         values[2] = cliente.categoria;
         values[3] = cliente.segmento;
         values[4] = "Mobile Telerik";
@@ -452,7 +501,7 @@ VERSION CON RESTful WCF
         } else if (e.data.ActionType == 'C2C') {
             app.genesysVirtualHold(datosIVR.getPosAuthenticateResult.Telefono, numeroTransferencia);
         } else if (e.data.ActionType == 'CALLBACK') {
-            
+
         } else if (e.data.ActionType == 'CHAT') {
             var url = actionAttributes.getPostActionAttributesResult[0].Url;
             app.genesysChat(datosIVR.getPosAuthenticateResult.Telefono, url);
