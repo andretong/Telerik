@@ -455,6 +455,7 @@ VERSION CON RESTful WCF
 
         $.ajax({
             url: wsHost_DATA + 'doCallback',
+            async: false,
             type: 'POST',
             traditional: true,
             data: parametros, // or $('#myform').serializeArray()
