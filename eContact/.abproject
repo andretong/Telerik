@@ -3,11 +3,11 @@
   "ProjectGuid": "e4324677-a9c3-4df0-adcc-150fed4934f8",
   "projectVersion": 1,
   "AppIdentifier": "com.telerik.eContact",
-  "DisplayName": "eContact",
-  "Author": "",
-  "Description": "eContact",
-  "BundleVersion": "1.1",
-  "AndroidVersionCode": "2",
+  "DisplayName": "EContact",
+  "Author": "EContact",
+  "Description": "eContact Mobile Services for Contact Centers",
+  "BundleVersion": "1.2.1",
+  "AndroidVersionCode": "4",
   "iOSDeviceFamily": [
     "1",
     "2"
