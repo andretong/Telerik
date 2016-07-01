@@ -9,8 +9,7 @@
   "BundleVersion": "1.2.2",
   "AndroidVersionCode": "5",
   "iOSDeviceFamily": [
-    "1",
-    "2"
+    "1"
   ],
   "iOSBackgroundMode": [],
   "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
