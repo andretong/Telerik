@@ -6,8 +6,8 @@
   "DisplayName": "EContact",
   "Author": "EContact",
   "Description": "eContact Mobile Services for Contact Centers",
-  "BundleVersion": "1.2.2",
-  "AndroidVersionCode": "5",
+  "BundleVersion": "1.2.3",
+  "AndroidVersionCode": "6",
   "iOSDeviceFamily": [
     "1"
   ],
