@@ -1,0 +1,73 @@
+<div data-role="view" data-title="Contacto" data-layout="main" data-model="app.contactoPublicoView" data-show="app.contactoPublicoView.onShow" data-after-show="app.contactoPublicoView.afterShow">
+    <!-- START_CUSTOM_CODE_contactsView -->
+    <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
+    <div id="contactListActions">
+        <ul data-role="listview" data-template="contactsTemplate" data-bind="source: dataSourceActions">
+        </ul>
+    </div>
+    <script type="text/x-kendo-template" id="contactsTemplate">
+        <a data-bind="click: contactCenter">#: data.ActionType #</a>
+    </script>
+    <div id="contactInputCallback">
+        <h3> Callback </h3>
+        <span>
+        	Por favor, ingresa tus datos y te devolveremos la llamada lo antes posible.
+        </span>
+        <form>
+            <ul data-role="listview" data-style="inset">
+                <li>
+                    <label>
+                		<b>RUT:</b>
+                    </label>
+                    <input type="text" name="rut" data-bind="value: rut" placeholder="RUT" />
+                </li>
+                <li>
+                    <label>
+                		<b>Nombre:</b>
+                    </label>
+                    <input type="text" name="nombre" data-bind="value: nombre" placeholder="Nombre" />
+                </li>
+                <li>
+                    <label>
+                		<b>Apellido:</b>
+            		</label>
+                    <input type="text" name="apellido" data-bind="value: apellido" placeholder="Apellido" />
+                </li>
+                <li>
+                    <label>
+                	<b>E-Mail:</b>               
+            		</label>
+                    <input type="email" name="email" data-bind="value: email" placeholder="Correo" />
+                </li>
+                <li>
+                    <label>
+                		<b>Celular:</b>               
+            		</label>
+                    <input type="number" name="celular" data-bind="value: celular" placeholder="Celular" />
+                </li>
+                <li>
+                    <button data-bind="click: doVirtualHold" class="close-button" data-role="button">Aceptar</button>
+                    <button data-bind="click: close" class="close-button" data-role="button">Cancelar</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div id="chatbot">
+        <h3> Chatea con nuestro Bot </h3>
+        <div id="messages" style="width: 100%; heigth: 80%">
+        </div>
+        <div id="sender" style="width: 100%; heigth: 20%">
+            <table>
+                <tr>
+                    <textarea type="text" id="messageToSend" name="messageToSend" data-bind="value: mensaje" cols="40" rows="3" style="width: 100%;" placeholder="Escriba su consulta"></textarea>                    
+                </tr>
+                <tr>                    
+                    <button data-bind="click: sendMessage" class="close-button" data-role="button">Enviar</button>
+                    <button data-bind="click: closeChat" class="close-button" data-role="button">Finalizar Chat</button>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+    <!-- END_CUSTOM_CODE_contactsView -->
+</div>

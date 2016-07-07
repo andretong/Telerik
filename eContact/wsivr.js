@@ -513,5 +513,59 @@ VERSION CON RESTful WCF
         app.consultarNode(treeID, nodoID);
         app.consultarNodeActions(treeID, nodoID);
     }
+    
+    
+    
+    var wsWatson = 'https://gesys-bot.e-contact.cl/';
+    var dialog_id= 'e1789461-ac77-4260-9c49-7fb759c087cd';
+    
+    app.watsonIniciar = function () {
+        
+        var parametros = {
+            "input": "",
+        };
+
+        
+        $.ajax({
+            url: wsWatson + 'proxy/api/v1/dialogs/'+ dialog_id + '/conversation',
+            async: false,
+            type: 'POST',
+            data: parametros, // or $('#myform').serializeArray()
+            success: function (data) {                
+                sessionStorage.setItem("watson", JSON.stringify(data));                
+            },
+            error: function (error) {
+                //navigator.notification.alert("La llamada no puede ser agendada, por favor, intente nuevamente.");
+                navigator.notification.alert(JSON.stringify(error));
+            }
+
+        });        
+    }
+    
+    app.watsonConversation = function (message) {
+        
+        var watson = JSON.parse(sessionStorage.getItem("watson"));
+        
+        var parametros = {
+            "input": message,
+            "conversation_id": watson.conversation_id,
+            "client_id": watson.client_id
+        };
+        
+        $.ajax({
+            url: wsWatson + 'proxy/api/v1/dialogs/'+ dialog_id + '/conversation',
+            async: false,
+            type: 'POST',
+            data: parametros, // or $('#myform').serializeArray()
+            success: function (data) {                
+                sessionStorage.setItem("watson_response", JSON.stringify(data));                
+            },
+            error: function (error) {
+                //navigator.notification.alert("La llamada no puede ser agendada, por favor, intente nuevamente.");
+                navigator.notification.alert(JSON.stringify(error));
+            }
+
+        });        
+    }
 })();
 // END_CUSTOM_CODE_settingsView
