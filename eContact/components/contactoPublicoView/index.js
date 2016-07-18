@@ -103,23 +103,6 @@ app.contactoPublicoView = kendo.observable({
         }
     });
 
-    /*
-        $("#messageToSend").keypress(function (e) {
-            if (e.which == 13) {
-                
-                var msg = $("#messageToSend").val;
-                $("#messages").append("<p><b>Tu: </b>" + msg + "</p>");
-                app.watsonConversation(msg);
-
-                var watson_response = JSON.parse(sessionStorage.getItem("watson_response"));
-                var message = watson_response.response;
-                $("#messages").append("<p><b>AVRI: </b>" + message + "</p>");
-
-                app.contactoPublicoView.set('mensaje', '');
-            }
-        });
-        */
-
 
     $(document).keypress(function (e) {
         if (e.which == 13) {
@@ -130,7 +113,7 @@ app.contactoPublicoView = kendo.observable({
             var watson_response = JSON.parse(sessionStorage.getItem("watson_response"));
             var message = watson_response.response;
             $("#messages").append("<p><b>AVRI: </b>" + message + "</p>");
-            app.contactoPublicoView.set('mensaje', '');
+            $("#messageToSend").val('');            
         }
     });
 

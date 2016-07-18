@@ -54,20 +54,21 @@
     </div>
     <div id="chatbot">
         <h3> Chatea con nuestro Bot </h3>
-        <div id="messages" style="width: 100%; heigth: 80%">
+        <br/>
+        <div id="messages" style="overflow:auto;height:350px;">
+            
         </div>
-        <div id="sender" style="width: 100%; heigth: 20%">
+        <div id="sender" style="overflow:auto;height:20%;">
             <table>
                 <tr>
-                    <textarea type="text" id="messageToSend" name="messageToSend" data-bind="value: mensaje" cols="40" rows="3" style="width: 100%;" placeholder="Escriba su consulta"></textarea>                    
+                    <textarea type="text" id="messageToSend" name="messageToSend" data-bind="value: mensaje" cols="40" rows="3" style="width: 100%;" placeholder="Escriba su consulta"></textarea>
                 </tr>
-                <tr>                    
+                <tr>
                     <button data-bind="click: sendMessage" class="close-button" data-role="button">Enviar</button>
                     <button data-bind="click: closeChat" class="close-button" data-role="button">Finalizar Chat</button>
                 </tr>
             </table>
         </div>
-        
     </div>
     <!-- END_CUSTOM_CODE_contactsView -->
 </div>
