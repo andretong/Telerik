@@ -516,45 +516,25 @@ VERSION CON RESTful WCF
 
 
 
-    var wsWatson = 'https://gesys-bot.e-contact.cl/';
-    var dialog_id = 'e1789461-ac77-4260-9c49-7fb759c087cd';
+    var wsWatson = 'https://gesys-bot.e-contact.cl/proxy/api/v1/dialogs/';
+    //var dialog_id = 'e1789461-ac77-4260-9c49-7fb759c087cd';
+    var dialog_id = '';
 
     app.watsonIniciar = function () {
+        
+        app.consultarActionsAttributes('CHATBOT', '18');
+        var actionAttributes = JSON.parse(sessionStorage.getItem("actionAttributes_18"));
+        
+        wsWatson = actionAttributes.getPostActionAttributesResult[0].Dialog_url;
+        dialog_id = actionAttributes.getPostActionAttributesResult[0].Dialog_id;
 
-        var inputAction = { 
-            "treeID": "CHATBOT",
-            "actionID": "18"
-        }
-
-        var auxID = ""
-        var auxURL = "";
-
-        $.ajax({
-            url: wsHost + 'getPostActionAttributes',
-            async: false,
-            type: 'POST',
-            data: inputAction, // or $('#myform').serializeArray()
-            success: function (data) {
-                sessionStorage.setItem("watson", JSON.stringify(data));
-
-                auxID = data.Dialog_id;
-                auxURL = data.Dialog_url;
-
-                alert(auxID);
-            },
-            error: function (error) {
-                //navigator.notification.alert("La llamada no puede ser agendada, por favor, intente nuevamente.");
-                navigator.notification.alert(JSON.stringify(error));
-            }
-
-        });
-
+        
         var parametros = {
             "input": "",
         };
 
         $.ajax({
-            url: wsWatson + 'proxy/api/v1/dialogs/' + dialog_id + '/conversation',
+            url: wsWatson + dialog_id + '/conversation',
             async: false,
             type: 'POST',
             data: parametros, // or $('#myform').serializeArray()
@@ -580,7 +560,7 @@ VERSION CON RESTful WCF
         };
 
         $.ajax({
-            url: wsWatson + 'proxy/api/v1/dialogs/' + dialog_id + '/conversation',
+            url: wsWatson + dialog_id + '/conversation',
             async: false,
             type: 'POST',
             data: parametros, // or $('#myform').serializeArray()
