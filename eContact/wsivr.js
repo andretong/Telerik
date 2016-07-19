@@ -517,7 +517,6 @@ VERSION CON RESTful WCF
 
 
     var wsWatson = 'https://gesys-bot.e-contact.cl/proxy/api/v1/dialogs/';
-    //var dialog_id = 'e1789461-ac77-4260-9c49-7fb759c087cd';
     var dialog_id = '';
 
     app.watsonIniciar = function () {
@@ -542,7 +541,6 @@ VERSION CON RESTful WCF
                 sessionStorage.setItem("watson", JSON.stringify(data));
             },
             error: function (error) {
-                //navigator.notification.alert("La llamada no puede ser agendada, por favor, intente nuevamente.");
                 navigator.notification.alert(JSON.stringify(error));
             }
 
