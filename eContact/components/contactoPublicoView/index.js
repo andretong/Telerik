@@ -107,13 +107,18 @@ app.contactoPublicoView = kendo.observable({
     $(document).keypress(function (e) {
         if (e.which == 13) {
             var msg = $("#messageToSend").val();
-            $("#messages").append("<p><b>Tu: </b>" + msg + "</p>");            
-            app.watsonConversation(msg);
+            
+            if (msg != ''){
+                $("#messages").append("<p><b>Tu: </b>" + msg + "</p>");            
+                app.watsonConversation(msg);
 
-            var watson_response = JSON.parse(sessionStorage.getItem("watson_response"));
-            var message = watson_response.response;
-            $("#messages").append("<p><b>AVRI: </b>" + message + "</p>");
-            $("#messageToSend").val('');            
+                var watson_response = JSON.parse(sessionStorage.getItem("watson_response"));
+                var message = watson_response.response;
+                $("#messages").append("<p><b>AVRI: </b>" + message + "</p>");
+                $("#messageToSend").val('');
+            }
+            
+                        
         }
     });
 
