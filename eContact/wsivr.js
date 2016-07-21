@@ -541,7 +541,8 @@ VERSION CON RESTful WCF
                 sessionStorage.setItem("watson", JSON.stringify(data));
             },
             error: function (error) {
-                navigator.notification.alert(JSON.stringify(error));
+                //navigator.notification.alert(JSON.stringify(error));
+                navigator.notification.alert("Lo sentimos, ha ocurrido un error.");
             }
 
         });
@@ -566,8 +567,7 @@ VERSION CON RESTful WCF
                 sessionStorage.setItem("watson_response", JSON.stringify(data));
             },
             error: function (error) {
-                //navigator.notification.alert("La llamada no puede ser agendada, por favor, intente nuevamente.");
-                navigator.notification.alert(JSON.stringify(error));
+                //navigator.notification.alert(JSON.stringify(error));
             }
 
         });
