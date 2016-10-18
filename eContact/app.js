@@ -8,10 +8,10 @@
     var bootstrap = function() {
         $(function() {
             app.mobileApp = new kendo.mobile.Application(document.body, {
-                transition: 'slide',
-                skin: 'nova',
-                initial: 'components/loginView/view.html'
-            });
+                                                             transition: 'slide',
+                                                             skin: 'nova',
+                                                             initial: 'components/loginView/view.html'
+                                                         });
         });
     };
 
@@ -40,11 +40,10 @@
         } else {
             return navigator.connection.type !== 'none';
         }
-    };
+    };    
     
     sessionStorage.clear();
 }());
-
 // START_CUSTOM_CODE_kendoUiMobileApp
 // Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes
 
