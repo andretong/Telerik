@@ -7,7 +7,7 @@ VERSION CON RESTful WCF
 */
 (function () {
     var wsHost_DATA = 'http://gesys-demo.e-contact.cl:8080/WS_IVRNodos/services/';
-    var wsHost = 'https://wcfguimodel.e-contact.cl/Service1.svc/rest/';
+    var wsHost = 'https://wcfguimodel.e-contact.cl/Service1.svc/rest/';    
     var wsInput = {};
 
     app.autentication = function (username, password) {
@@ -572,5 +572,59 @@ VERSION CON RESTful WCF
 
         });
     }
+    
+    
+    var wsHost_BotFrameword = 'https://directline.botframework.com';
+    var botFramework_header = {
+        	"Authorization": "Bearer SkxF6_CTQ4Q.cwA.KNY.iFb-RXEzwd5Ks1L4NxUFtWMxSc_S8Q1r8UeOiLsFRB4",
+           "Accept": "application/json",
+           "Content-Type": "application/json"
+           };
+    
+    app.botFrameworkInit = function (message) {
+
+        $.ajax({
+            url: wsHost_BotFrameword + '/api/conversations',
+            async: false,
+            type: 'POST',
+            headers: botFramework_header,
+            success: function (data) {
+                console.log("botFrameworkInit ", JSON.stringify(data));
+                //sessionStorage.setItem("watson_response", JSON.stringify(data));
+            },
+            error: function (error) {
+                //navigator.notification.alert(JSON.stringify(error));
+            }
+
+        });
+    }
+    
+    app.botFrameworkConversation = function (message) {
+
+        var conversationID = JSON.parse(sessionStorage.getItem("botFramework_conversationId"));
+
+        var parametros = {
+           	"from": "atong", 
+            "text": message            
+        };
+
+        $.ajax({
+            url:  wsHost_BotFrameword + '/api/conversations',
+            async: false,
+            type: 'POST',
+            headers: botFramework_header,
+            data: parametros, // or $('#myform').serializeArray()
+            success: function (data) {
+                console.log("botFrameworkConversation ", JSON.stringify(data));
+                //sessionStorage.setItem("watson_response", JSON.stringify(data));
+            },
+            error: function (error) {
+                //navigator.notification.alert(JSON.stringify(error));
+            }
+
+        });
+    }
+    
+    
 })();
 // END_CUSTOM_CODE_settingsView
