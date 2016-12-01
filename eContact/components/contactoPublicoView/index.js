@@ -60,6 +60,8 @@ app.contactoPublicoView = kendo.observable({
                                                    $("#chatbot").fadeOut();
 
                                                    $("#messages").empty();
+
+                                                   sessionStorage.setItem("botFramework_conversationId", "null");
                                                },
                                                sendMessage: function () {
                                                    var msg = $("#messageToSend").val();
@@ -82,6 +84,7 @@ app.contactoPublicoView = kendo.observable({
                                                            }
                                                        }else {
                                                            $("#messages").append("<p><b>Tu: </b>" + msg + "</p>");            
+                                                           /*
                                                            app.watsonConversation(msg);
 
                                                            var watson_response = JSON.parse(sessionStorage.getItem("watson_response"));
@@ -94,6 +97,12 @@ app.contactoPublicoView = kendo.observable({
                                                            if (itHas) {
                                                                sessionStorage.setItem("askForPhone", "true");
                                                            }
+                                                           */
+
+                                                          app.botFrameworkSendMessage(msg);
+
+                                                           $("#messageToSend").val('');
+                                        
                                                        }
                                                    }
                                                }
@@ -113,11 +122,17 @@ app.contactoPublicoView = kendo.observable({
             $("#contactListActions").fadeOut();
             $("#chatbot").fadeIn();
 
-            app.watsonIniciar();
+            //app.watsonIniciar();
+            //var watson = JSON.parse(sessionStorage.getItem("watson"));
+            //var message = watson.response;
+            
+            app.botFrameworkInit();
+            
+            var conversationID = sessionStorage.getItem("botFramework_conversationId");
+			var message = "Se inicia conversacion "+conversationID;
+            
 
-            var watson = JSON.parse(sessionStorage.getItem("watson"));
-
-            var message = watson.response;
+            
             $("#messages").append("<p><b>AVRI: </b>" + message + "</p>");
         }
     });
@@ -143,7 +158,8 @@ app.contactoPublicoView = kendo.observable({
                         console.log("Phone Error");
                     }
                 }else {
-                    $("#messages").append("<p><b>Tu: </b>" + msg + "</p>");            
+                    $("#messages").append("<p><b>Tu: </b>" + msg + "</p>");        
+                    /*
                     app.watsonConversation(msg);
 
                     var watson_response = JSON.parse(sessionStorage.getItem("watson_response"));
@@ -155,10 +171,47 @@ app.contactoPublicoView = kendo.observable({
                     console.log(itHas);
                     if (itHas) {
                         sessionStorage.setItem("askForPhone", "true");
+                    }*/
+
+                    app.botFrameworkSendMessage(msg);
+                    app.botFrameworkGetMessage();
+                    var botFramework_response = JSON.parse(sessionStorage.getItem("botFramework_response"));
+                    var arrMessages = botFramework_response.messages;
+        
+                    var message = "some message";
+                    for (var i=0; i<arrMessages.lenght; i++){
+                        console.log("Mensaje "+i+": "+arrMessages[i].text);
+                    message = " "+arrMessages[i].text;
+                    $("#messages").append("<p><b>AVRI: </b>" + message + "</p>");
                     }
+                    
+                    
+                    $("#messageToSend").val('');
                 }
             }
         }
     });
+
+    setInterval(function() {
+        var conversationID = sessionStorage.getItem("botFramework_conversationId");
+        if (conversationID != null && conversationID != "null"){
+            console.log("Searching messages");
+            app.botFrameworkGetMessage();
+            
+            var botFramework_response = JSON.parse(sessionStorage.getItem("botFramework_response"));
+
+            var arrMessages = botFramework_response.messages;
+            var message = "some message";
+            for (var i=0; i<arrMessages.length; i++){
+                console.log("From: "+arrMessages[i].from+" Mensaje "+i+": "+arrMessages[i].text);
+                if (arrMessages[i].from != conversationID){
+                    message = " "+arrMessages[i].text;
+                    $("#messages").append("<p><b>AVRI: </b>" + message + "</p>");
+                }
+            }
+        }
+        
+    }, 5000);
+
 })();
 // END_CUSTOM_CODE_contactsView

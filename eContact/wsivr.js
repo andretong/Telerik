@@ -574,23 +574,23 @@ VERSION CON RESTful WCF
     }
     
     
-    var wsHost_BotFrameword = 'https://directline.botframework.com';
+    var wsHost_BotFramework = 'https://directline.botframework.com';
     var botFramework_header = {
         	"Authorization": "Bearer SkxF6_CTQ4Q.cwA.KNY.iFb-RXEzwd5Ks1L4NxUFtWMxSc_S8Q1r8UeOiLsFRB4",
            "Accept": "application/json",
            "Content-Type": "application/json"
            };
     
-    app.botFrameworkInit = function (message) {
+    app.botFrameworkInit = function () {
 
         $.ajax({
-            url: wsHost_BotFrameword + '/api/conversations',
+            url: wsHost_BotFramework + '/api/conversations',
             async: false,
             type: 'POST',
             headers: botFramework_header,
             success: function (data) {
                 console.log("botFrameworkInit ", JSON.stringify(data));
-                //sessionStorage.setItem("watson_response", JSON.stringify(data));
+                sessionStorage.setItem("botFramework_conversationId", JSON.stringify(data.conversationId).replace("\"", "").replace("\"", ""));
             },
             error: function (error) {
                 //navigator.notification.alert(JSON.stringify(error));
@@ -599,30 +599,68 @@ VERSION CON RESTful WCF
         });
     }
     
-    app.botFrameworkConversation = function (message) {
 
-        var conversationID = JSON.parse(sessionStorage.getItem("botFramework_conversationId"));
-
+    app.botFrameworkSendMessage = function (message) {
+        
+        var conversationID =sessionStorage.getItem("botFramework_conversationId");
         var parametros = {
-           	"from": "atong", 
+           	"from": conversationID, 
             "text": message            
         };
 
+        console.log("botFrameworkSendMessage ", conversationID);
+        console.log("botFrameworkSendMessage ", JSON.stringify(parametros));
         $.ajax({
-            url:  wsHost_BotFrameword + '/api/conversations',
-            async: false,
+            url:  wsHost_BotFramework + '/api/conversations/'+conversationID+'/messages',
             type: 'POST',
             headers: botFramework_header,
-            data: parametros, // or $('#myform').serializeArray()
+            data: JSON.stringify(parametros),
             success: function (data) {
-                console.log("botFrameworkConversation ", JSON.stringify(data));
-                //sessionStorage.setItem("watson_response", JSON.stringify(data));
+                console.log("botFrameworkSendMessage ", data);
+                console.log("botFrameworkSendMessage ", JSON.stringify(data));
+                //sessionStorage.setItem("botFramework_conversationId", JSON.stringify(data.conversationId).replace("\"", ""));
             },
             error: function (error) {
+                console.log("botFrameworkSendMessage ", JSON.stringify(error));
                 //navigator.notification.alert(JSON.stringify(error));
             }
 
         });
+    }
+
+    app.botFrameworkGetMessage = function () {
+
+        var conversationID = sessionStorage.getItem("botFramework_conversationId");
+        var watermark = sessionStorage.getItem("botFramework_watermark");
+
+        var url = wsHost_BotFramework + '/api/conversations/'+conversationID+'/messages';
+        
+        if (watermark != null && watermark != "null" && watermark != "undefined")
+            url = wsHost_BotFramework + '/api/conversations/'+conversationID+'/messages?watermark='+watermark;
+
+        $.ajax({
+            url:  url,
+            async: false,
+            type: 'GET',
+            headers: botFramework_header,
+            success: function (data) {
+                var newWatermark = data.watermark;
+                console.log("watermark "+newWatermark);
+
+                //if (watermark != newWatermark)
+                    sessionStorage.setItem("botFramework_watermark", newWatermark);
+                //else{
+                //    sessionStorage.setItem("botFramework_watermark", "null");
+                //}                
+                sessionStorage.setItem("botFramework_response", JSON.stringify(data));
+            },
+            error: function (error) {
+                console.log(JSON.stringify(error));
+            }
+
+        });
+        
+        
     }
     
     
